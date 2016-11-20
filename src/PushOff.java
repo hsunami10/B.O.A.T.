@@ -63,6 +63,8 @@ public class PushOff extends Applet implements Runnable, KeyListener, MouseListe
     
     ChooseNumPlayersMenu playerMenu;
     MainMenu mainMenu;
+    InfoMenu infoMenu;
+    ControlMenu controlMenu;
     
     CollisionSolver collide;
     
@@ -96,7 +98,9 @@ public class PushOff extends Applet implements Runnable, KeyListener, MouseListe
     	gfx = img.getGraphics();
     	
 		playerMenu = new ChooseNumPlayersMenu();
+		infoMenu = new InfoMenu();
 		mainMenu = new MainMenu();
+		controlMenu = new ControlMenu();
     	
     	// This starts this thread (the game)
     	thread = new Thread(this);
@@ -137,6 +141,18 @@ public class PushOff extends Applet implements Runnable, KeyListener, MouseListe
 			gfx.fillRect(0, 0, WIDTH, HEIGHT);
 			playerMenu.draw(gfx);
 			//g.drawImage(img, 0, 0, this);
+		}
+
+		if(goToInfoMenu) {
+			gfx.setColor(Color.BLACK);
+			gfx.fillRect(0, 0, WIDTH, HEIGHT);
+			infoMenu.draw(gfx);
+		}
+
+		if(goToControlMenu){
+			gfx.setColor(Color.BLACK);
+			gfx.fillRect(0, 0, WIDTH, HEIGHT);
+			controlMenu.draw(gfx);
 		}
 		
 		// Draw the game once it starts (after the number of players are chosen)
@@ -475,6 +491,32 @@ public class PushOff extends Applet implements Runnable, KeyListener, MouseListe
 		
 		// else if forces the user to click another time
 		// Main menu
+		if (goToControlMenu) {
+			if(my > 625 && my < 625 + mainMenu.HEIGHT_RECT) {
+				goToPlayerMenu = false;
+				goToMainMenu = true;
+				gameStarted = false;
+				goToGameMode = false;
+				goToGamePlay = false;
+				goToControlMenu = false;
+				goToInfoMenu = false;
+				playAgain = false;
+			}
+		}
+
+		if (goToInfoMenu)
+		{
+			if(my > 625 && my < 625 + mainMenu.HEIGHT_RECT) {
+				goToPlayerMenu = false;
+				goToMainMenu = true;
+				gameStarted = false;
+				goToGameMode = false;
+				goToGamePlay = false;
+				goToControlMenu = false;
+				goToInfoMenu = false;
+				playAgain = false;
+			}
+		}
 		if(goToMainMenu) {
 			
 			if(mx > WIDTH/2 - mainMenu.WIDTH_RECT/2 && mx < WIDTH/2 - mainMenu.WIDTH_RECT/2 + mainMenu.WIDTH_RECT) {
@@ -493,11 +535,26 @@ public class PushOff extends Applet implements Runnable, KeyListener, MouseListe
 				}
 				// Controls button
 				if(my > 375 && my < 375 + mainMenu.HEIGHT_RECT) {
+					// control menu is true here 
+					goToPlayerMenu = false;
+					goToMainMenu = false;
+					gameStarted = false;
+					goToGameMode = false;
+					goToGamePlay = false;
 					goToControlMenu = true;
+					goToInfoMenu = false;
+					playAgain = false;
 				}
 				// Info button
 				if(my > 500 && my < 500 + mainMenu.HEIGHT_RECT) {
+					goToPlayerMenu = false;
+					goToMainMenu = false;
+					gameStarted = false;
+					goToGameMode = false;
+					goToGamePlay = false;
+					goToControlMenu = false;
 					goToInfoMenu = true;
+					playAgain = false;
 				}
 				// Exit button
 				if(my > 625 && my < 625 + mainMenu.HEIGHT_RECT) {
@@ -557,6 +614,30 @@ public class PushOff extends Applet implements Runnable, KeyListener, MouseListe
 		int mx = e.getX();
 		int my = e.getY();
 		
+		if(goToControlMenu){
+			if(mx > WIDTH/2 - controlMenu.WIDTH_RECT/2 && mx < WIDTH/2 - controlMenu.WIDTH_RECT/2 + controlMenu.WIDTH_RECT) {
+				if(my > 625 && my < 625 + controlMenu.HEIGHT_RECT)
+					controlMenu.mouseInBack = true;
+			}
+			// not in bounds 
+			if(mx < WIDTH/2 - controlMenu.WIDTH_RECT/2 || mx > WIDTH/2 - controlMenu.WIDTH_RECT/2 + controlMenu.WIDTH_RECT)
+				controlMenu.mouseInBack = false;
+			if(my < 625 || my > 625 + controlMenu.HEIGHT_RECT)
+				controlMenu.mouseInBack = false;
+		}
+
+		if(goToInfoMenu){
+			if(mx > WIDTH/2 - infoMenu.WIDTH_RECT/2 && mx < WIDTH/2 - infoMenu.WIDTH_RECT/2 + infoMenu.WIDTH_RECT) {
+				if(my > 625 && my < 625 + infoMenu.HEIGHT_RECT)
+					infoMenu.mouseInBack = true;
+			}
+			// not in bounds 
+			if(mx < WIDTH/2 - infoMenu.WIDTH_RECT/2 || mx > WIDTH/2 - infoMenu.WIDTH_RECT/2 + infoMenu.WIDTH_RECT)
+				infoMenu.mouseInBack = false;
+			if(my < 625 || my > 625 + infoMenu.HEIGHT_RECT)
+				infoMenu.mouseInBack = false;
+		}
+
 		// Main menu
 		if(goToMainMenu) {
 			// In bounds
