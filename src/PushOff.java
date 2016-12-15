@@ -721,6 +721,9 @@ public class PushOff extends Applet implements Runnable, KeyListener, MouseListe
 			if(my < 650 || my > 710)
 				playerMenu.mouseIn4 = false;
 		}
+		
+		// Info Menu
+		
 
 	}
 	
