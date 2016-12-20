@@ -9,7 +9,3 @@
 	<li>Green - Arrow Keys</li>
 </ul>
 <p>This game is still in development. Upcoming versions will allow the player to choose controls and have different game modes. </p>
-
-.p {
-font-color: blue;
-}
